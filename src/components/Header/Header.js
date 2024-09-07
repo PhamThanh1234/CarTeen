@@ -28,24 +28,24 @@ const Header = () => {
             <NavLink to="/users" className="nav-link">
               Users
             </NavLink>
-            <NavLink to="/admins" className="nav-link">
-              Admin
+            <NavLink to="/introduce" className="nav-link">
+              Giới thiệu
             </NavLink>
           </Nav>
           <Nav>
             <button className="btn-login" onClick={() => handleLogin()}>
-              Đăng ký
-            </button>
-            <button className="btn-signin" onClick={() => handleSignin()}>
               Đăng nhập
             </button>
+            <button className="btn-signin" onClick={() => handleSignin()}>
+              Đăng ký
+            </button>
           </Nav>
-          <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="./editprofile">Action</NavDropdown.Item>
+          <NavDropdown title="Account" id="basic-nav-dropdown">
+            <NavDropdown.Item href="./editprofile">Profile</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.4">Đăng xuất</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
       </Container>

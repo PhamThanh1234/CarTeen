@@ -1,7 +1,9 @@
-import videoHomepag from '../../assets/video-homepage.mp4';
 import React from 'react';
 import { FcShipped, FcSearch, FcSurvey } from 'react-icons/fc';
 import './Homepage.css';
+import Question from './Questions/Questions';
+import Footer from '../Footer/Footer';
+import videoxe from '../../assets/xe.mp4';
 
 const HomePage = (props) => {
   const videoRef = React.createRef();
@@ -17,7 +19,7 @@ const HomePage = (props) => {
             controls={false}
             onLoadedData={() => videoRef.current.play()}
           >
-            <source src={videoHomepag} type="video/mp4" />
+            <source src={videoxe} type="video/mp4" />
           </video>
         </div>
         <div className="homepage-container-content">
@@ -48,7 +50,7 @@ const HomePage = (props) => {
       </div>
       <div className="homepage-content">
         <div className="homepage-content-title">
-          <h2>Thuê xe máy tại CarTeen chỉ với 3 bước </h2>
+          <h2>Thuê xe máy tại Motorbike chỉ với 3 bước </h2>
         </div>
         <div className="homepage-content-item">
           <div className="homepage-item">
@@ -62,7 +64,7 @@ const HomePage = (props) => {
               <div className="item-content-description">
                 <p>
                   {' '}
-                  Mô tả chi tiết nhu cầu thuê xe máy để CarTeen có thể tìm và giữ xe phù hợp nhất
+                  Mô tả chi tiết nhu cầu thuê xe máy để Motorbike có thể tìm và giữ xe phù hợp nhất
                   cho bạn.
                 </p>
               </div>
@@ -99,6 +101,8 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
+      <Question />
+      <Footer />
     </div>
   );
 };

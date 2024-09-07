@@ -6,7 +6,7 @@ const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const handleSignin = () => {
+  const handleLogin = () => {
     alert('Login');
   };
 
@@ -59,12 +59,13 @@ const Login = (props) => {
               </a>
             </div>
             <div className="clearfix">
-              <button type="submit" className="signupbtn" onClick={() => handleSignin()}>
+              <button type="submit" className="signupbtn" onClick={() => handleLogin()}>
                 Đăng nhập
               </button>
             </div>
             <div className="text-center text-gohome">
               <span
+                className="gotohome"
                 onClick={() => {
                   navigate('/');
                 }}

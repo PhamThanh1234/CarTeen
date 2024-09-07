@@ -1,18 +1,27 @@
 import './Editprofile.css';
 import React, { useState } from 'react';
-import moment from 'moment';
+
+function Uploadimg() {
+  const uploadInput = document.getElementById('upload-input');
+  const uploadedImage = document.getElementById('uploaded-image');
+  uploadInput.addEventListener('change', (e) => {
+    const file = uploadInput.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageData = event.target.result;
+      uploadedImage.src = imageData;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 function EditProfile() {
   const initialProfile = {
     name: '',
-    password: '',
     phoneNumber: '',
     email: '',
     address: '',
-    state: '',
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
+    cccd: '',
   };
 
   const [profile, setProfile] = useState(initialProfile);
@@ -46,23 +55,13 @@ function EditProfile() {
   const validateProfile = (profile) => {
     const errors = {};
     if (!profile.name) errors.name = 'Name is required';
-    if (!profile.password) errors.password = 'Password is required';
-    else if (profile.password.length < 8)
-      errors.password = 'Password must be at least 8 characters';
     if (!profile.phoneNumber) errors.phoneNumber = 'Phone number is required';
     else if (!/^\d+$/.test(profile.phoneNumber))
       errors.phoneNumber = 'Phone number must be a number';
     if (!profile.email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(profile.email)) errors.email = 'Email is invalid';
-    if (!profile.address) errors.address = 'Address is required';
-    if (!profile.state) errors.state = 'State is required';
-    if (!profile.cardNumber) errors.cardNumber = 'Card number is required';
-    else if (!/^\d+$/.test(profile.cardNumber)) errors.cardNumber = 'Card number must be a number';
-    if (!profile.expiryDate) errors.expiryDate = 'Expiry date is required';
-    else if (!moment(profile.expiryDate, 'MM/DD/YYYY', true).isValid())
-      errors.expiryDate = 'Expiry date is invalid';
-    if (!profile.cvv) errors.cvv = 'CVV is required';
-    else if (!/^\d{3,4}$/.test(profile.cvv)) errors.cvv = 'CVV is invalid';
+    if (!profile.cccd) errors.cccd = 'CCCD is required';
+    else if (!/^[0-9]{9}$|^[0-9]{12}$/.test(profile.cccd)) errors.cccd = 'CCCD is invalid';
     return errors;
   };
 
@@ -94,17 +93,6 @@ function EditProfile() {
                 onChange={handleChange}
               />
               {errors.name && <div className="error">{errors.name}</div>}
-            </div>
-            <div className="label">Password</div>
-            <div>
-              <input
-                className="input"
-                type="password"
-                name="password"
-                value={profile.password}
-                onChange={handleChange}
-              />
-              {errors.password && <div className="error">{errors.password}</div>}
             </div>
             <div className="label">Phone number</div>
             <div>
@@ -139,53 +127,47 @@ function EditProfile() {
               />
               {errors.address && <div className="error">{errors.address}</div>}
             </div>
-            <div className="label">State</div>
-            <div>
-              <select className="select" name="state" value={profile.state} onChange={handleChange}>
-                <option value="">Select State</option>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                {/* Thêm các tùy chọn khác ở đây */}
-              </select>
-              {errors.state && <div className="error">{errors.state}</div>}
-            </div>
-            <div className="label">Credit Card</div>
-            <div>&nbsp;</div>
-            <div className="label">Card number</div>
+
+            <div className="label">CCCD(Căn Cước Công Dân)</div>
             <div>
               <input
                 className="input"
                 type="text"
-                name="cardNumber"
-                value={profile.cardNumber}
+                name="cccd"
+                value={profile.cccd}
                 onChange={handleChange}
               />
-              {errors.cardNumber && <div className="error">{errors.cardNumber}</div>}
+              {errors.cccd && <div className="error">{errors.cccd}</div>}
             </div>
-            <div className="label">Expired date (MM/DD/YYYY)</div>
-            <div>
-              <input
-                className="input"
-                type="text"
-                name="expiryDate"
-                value={profile.expiryDate}
-                onChange={handleChange}
-              />
-              {errors.expiryDate && <div className="error">{errors.expiryDate}</div>}
+          </div>
+          <div className="right-container">
+            <div className="change">
+              <div style={{ margin: '50% 0' }}>
+                <label htmlFor="upload-input" className="upload-button" onClick={Uploadimg}>
+                  Change
+                </label>
+              </div>
             </div>
-            <div className="label">CVV</div>
             <div>
-              <input
-                className="input"
-                type="text"
-                name="cvv"
-                value={profile.cvv}
-                onChange={handleChange}
-              />
-              {errors.cvv && <div className="error">{errors.cvv}</div>}
+              <div className="image-upload-container">
+                <div className="image-preview">
+                  <img src="" alt="" id="uploaded-image" />
+                </div>
+                <div className="upload-actions">
+                  <input type="file" id="upload-input" />
+                </div>
+              </div>
+              <div className="right-item" style={{ display: 'flex', justifyContent: 'center' }}>
+                <img
+                  style={{ width: 30, height: 40, marginRight: 15 }}
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAL5JREFUSEvllLEJAkEQRd8FtmAoGBmZX2QLdqE1WIIlaCEWcJGxNqCpLRgoIyOsBy5/XA6EnWRZmPlv5i+zDQNHM7A+9QFWbuletTZiUQt0LrwAjgpEBYyBM2CnxQ2Y+5nlKICRd24TpGET2CT3HEEB7IC3930te4t1KSCtf/hFaeyVKie6cBFAKQ7npBOEi794/6FTH0BZ3iKL/htwBSZKi0LOBZj2F20JbIGZIJBLOQEb4PDLJofZ0a+iQsAT35YkGWEb0lUAAAAASUVORK5CYII="
+                />
+                <p className="p-upload">Upload CCCD</p>
+              </div>
             </div>
           </div>
         </div>
+
         <div className="footer-container">
           <div className="button-container">
             <button className="button" onClick={handleSave}>

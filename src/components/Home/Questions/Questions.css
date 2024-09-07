@@ -1,0 +1,14 @@
+.title-questions > h2{
+    text-align: center;
+    margin: 20px 0;
+}
+.container-questions{
+    margin: 20px 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.accordion-item ,.questions{
+    border: 1px solid black;
+}

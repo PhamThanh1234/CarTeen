@@ -4,13 +4,15 @@
     padding: 40px 0px;
     text-align: left;
     align-items: flex-start;
-   
+    margin-top: 20px;
+    
 
 }
 
 .homepage-container-video{
     float: left;
     width: 50%;
+    margin: auto 20px;
 }
 
 .homepage-container .homepage-container-video video{
@@ -42,8 +44,8 @@
 
 
 .content-homepage{
-    padding-top: 10%;
-    width: 60%;
+    padding-top: 4%;
+    width: 60%; 
 }
 .content h1 {
     font-size: 78px;
@@ -148,4 +150,7 @@ svg{
   font-weight: 600;
   margin: 20px 0;
   text-align: center;
+}
+.homepage-content{
+  padding: 50px;
 }
