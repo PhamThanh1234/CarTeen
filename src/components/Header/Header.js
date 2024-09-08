@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, useNavigate } from 'react-router-dom';
+
 import './Header.css';
 
 const Header = () => {
@@ -30,6 +31,9 @@ const Header = () => {
             </NavLink>
             <NavLink to="/introduce" className="nav-link">
               Giới thiệu
+            </NavLink>
+            <NavLink to="/privacy" className="nav-link">
+              Chính sách
             </NavLink>
           </Nav>
           <Nav>

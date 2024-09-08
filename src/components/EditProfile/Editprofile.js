@@ -60,6 +60,7 @@ function EditProfile() {
       errors.phoneNumber = 'Phone number must be a number';
     if (!profile.email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(profile.email)) errors.email = 'Email is invalid';
+    if (!profile.address) errors.address = 'Address is required';
     if (!profile.cccd) errors.cccd = 'CCCD is required';
     else if (!/^[0-9]{9}$|^[0-9]{12}$/.test(profile.cccd)) errors.cccd = 'CCCD is invalid';
     return errors;
