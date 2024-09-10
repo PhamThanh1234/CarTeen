@@ -24,11 +24,12 @@ const HomePage = (props) => {
         </div>
         <div className="homepage-container-content">
           <div className="content-homepage">
-            <h1>Make forms worth filling out</h1>
+            <h1>Bạn cần xe để vi vu quanh khu vực du lịch ?</h1>
             <p>
               <span>
-                Get more data—like signups, feedback, and anything else—with forms designed to be
-                refreshingly different.
+                Khám phá những dòng xe đa dạng của MotorBike để thỏa sức vi vu khám phá mọi điểm
+                đến! Hãy xem ngay danh sách các loại xe chất lượng, giá cả phải chăng và phù hợp với
+                nhu cầu của bạn.
               </span>
             </p>
           </div>
