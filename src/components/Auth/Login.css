@@ -47,7 +47,10 @@
   button:hover {
     opacity:1;
   }
-  
+  .content-form{
+    width: 50%;
+    margin: 80px auto;
+  }
 
   .cancelbtn {
     padding: 14px 20px;

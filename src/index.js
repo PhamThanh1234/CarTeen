@@ -13,6 +13,9 @@ import Signin from './components/Auth/Signin';
 import EditProfile from './components/EditProfile/Editprofile';
 import Introduce from './components/Introduce/Introduce';
 import Privacy from './components/Privacy/Privacy';
+import Admin from './components/Admin/Admin';
+import DashBoard from './components/Admin/Content/DashBoard';
+import ManageUser from './components/Admin/Content/ManageUser';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
@@ -21,7 +24,12 @@ root.render(
         <Route index element={<HomePage />} />
         <Route path="introduce" exact element={<Introduce />} />
         <Route path="users" exact element={<User />} />
+
         <Route path="privacy" exact element={<Privacy />} />
+      </Route>
+      <Route path="/admin" exact element={<Admin />}>
+        <Route index element={<DashBoard />} />
+        <Route path="manageuser" exact element={<ManageUser />} />
       </Route>
       <Route path="/login" exact element={<Login />} />
       <Route path="/signin" exact element={<Signin />} />

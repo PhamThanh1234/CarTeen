@@ -1,20 +1,6 @@
 import './Editprofile.css';
 import React, { useState } from 'react';
 
-function Uploadimg() {
-  const uploadInput = document.getElementById('upload-input');
-  const uploadedImage = document.getElementById('uploaded-image');
-  uploadInput.addEventListener('change', (e) => {
-    const file = uploadInput.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const imageData = event.target.result;
-      uploadedImage.src = imageData;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
 function EditProfile() {
   const initialProfile = {
     name: '',
@@ -26,6 +12,7 @@ function EditProfile() {
 
   const [profile, setProfile] = useState(initialProfile);
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,17 +25,34 @@ function EditProfile() {
   const handleCancel = () => {
     setProfile(initialProfile);
     setErrors({});
+    setSuccessMessage('');
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const validationErrors = validateProfile(profile);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      // Thực hiện hành động lưu dữ liệu
-      console.log('Profile saved', profile);
-      // Reset lại errors sau khi lưu thành công
-      setErrors({});
+      try {
+        const response = await fetch('/api/update-profile', {
+          method: 'PUT', // Sử dụng 'PUT' hoặc 'PATCH' tùy vào thiết kế API
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(profile),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setSuccessMessage('Thông tin người dùng đã được cập nhật thành công!');
+          setErrors({});
+        } else {
+          setErrors({ apiError: data.message || 'Cập nhật thất bại, vui lòng thử lại.' });
+        }
+      } catch (error) {
+        setErrors({ apiError: 'Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.' });
+      }
     }
   };
 
@@ -141,33 +145,11 @@ function EditProfile() {
               {errors.cccd && <div className="error">{errors.cccd}</div>}
             </div>
           </div>
-          <div className="right-container">
-            <div className="change">
-              <div style={{ margin: '50% 0' }}>
-                <label htmlFor="upload-input" className="upload-button" onClick={Uploadimg}>
-                  Change
-                </label>
-              </div>
-            </div>
-            <div>
-              <div className="image-upload-container">
-                <div className="image-preview">
-                  <img src="" alt="" id="uploaded-image" />
-                </div>
-                <div className="upload-actions">
-                  <input type="file" id="upload-input" />
-                </div>
-              </div>
-              <div className="right-item" style={{ display: 'flex', justifyContent: 'center' }}>
-                <img
-                  style={{ width: 30, height: 40, marginRight: 15 }}
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAL5JREFUSEvllLEJAkEQRd8FtmAoGBmZX2QLdqE1WIIlaCEWcJGxNqCpLRgoIyOsBy5/XA6EnWRZmPlv5i+zDQNHM7A+9QFWbuletTZiUQt0LrwAjgpEBYyBM2CnxQ2Y+5nlKICRd24TpGET2CT3HEEB7IC3930te4t1KSCtf/hFaeyVKie6cBFAKQ7npBOEi794/6FTH0BZ3iKL/htwBSZKi0LOBZj2F20JbIGZIJBLOQEb4PDLJofZ0a+iQsAT35YkGWEb0lUAAAAASUVORK5CYII="
-                />
-                <p className="p-upload">Upload CCCD</p>
-              </div>
-            </div>
-          </div>
+          <div className="right-container">{/* Image upload components */}</div>
         </div>
+
+        {successMessage && <p className="success-message">{successMessage}</p>}
+        {errors.apiError && <p className="error-message">{errors.apiError}</p>}
 
         <div className="footer-container">
           <div className="button-container">

@@ -48,3 +48,14 @@ tbody{
 .table-privacy{
     border-width: 1px;
 }
+
+.displaynone{
+    display: none;
+}
+
+.active{
+    display: block;
+}
+#content1-right{
+    display: none;
+}

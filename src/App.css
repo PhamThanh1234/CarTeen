@@ -47,7 +47,21 @@
     .homepage-content{
         height: 600px;
     }
-
+    .container-form{
+        width: 100%;
+        
+    }
+    .content-form{
+        width: 90% !important;
+       
+      }
+    .label{
+        padding-left: 70px !important;
+    }
+    .container-editprofile{
+        
+        width: 110% !important;
+    }
 
 }
 
@@ -97,6 +111,7 @@
     }
     .container-editprofile{
         grid-template-columns: 2fr 5fr !important;
+        width: 90% !important;
     }
     .right-containe{
         width: 90% !important;
@@ -111,6 +126,7 @@
     .footer-container{
         margin: auto !important;
     }
+    
   
 }
 
@@ -193,12 +209,20 @@
     .homepage-container .homepage-container-video video{
         width: 90% !important;
     }
+    .container-editprofile{
+       margin-left: 20px;
+        width: 100%;
+    }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
     .nav-item{
         margin-left: 20px;
+    }
+    .container-editprofile{
+        margin-left: 60px;
+        width: 70%;
     }
 }
 

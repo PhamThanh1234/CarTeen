@@ -29,6 +29,9 @@ const Header = () => {
             <NavLink to="/users" className="nav-link">
               Users
             </NavLink>
+            <NavLink to="/admin" className="nav-link">
+              Admin
+            </NavLink>
             <NavLink to="/introduce" className="nav-link">
               Giới thiệu
             </NavLink>

@@ -1,18 +1,33 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-
+import axios from 'axios';
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const handleLogin = () => {
-    alert('Login');
-  };
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('api/login', {
+        email: email,
+        password: password,
+      });
+      if (response.data.success) {
+        alert('Đăng nhập thành công!');
 
+        navigate('/');
+      } else {
+        alert('Đăng nhập thất bại: ' + response.data.message);
+      }
+    } catch (error) {
+      console.error('Có lỗi xảy ra:', error);
+      alert('Đăng nhập thất bại, vui lòng thử lại.');
+    }
+  };
   return (
     <div className="login-container">
-      <div className="content-form col-5 mx-auto">
+      <div className="content-form">
         <form action="">
           <div className="container-form">
             <h1 className="title-signin">Đăng nhập</h1>
@@ -27,6 +42,7 @@ const Login = (props) => {
               placeholder="Nhập Email"
               name="email"
               required=""
+              id="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
@@ -39,6 +55,7 @@ const Login = (props) => {
               placeholder="Nhập Mật Khẩu"
               name="psw"
               required=""
+              id="psw"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
