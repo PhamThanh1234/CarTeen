@@ -1,28 +1,38 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { postLogin } from '../../services/apiService';
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
   const handleLogin = async (event) => {
     event.preventDefault();
-    try {
-      const response = await axios.post('api/login', {
-        email: email,
-        password: password,
-      });
-      if (response.data.success) {
-        alert('Đăng nhập thành công!');
+    const isValidEmail = validateEmail(email);
+    if (!isValidEmail) {
+      toast.error('Email is not valid');
+      return;
+    }
 
-        navigate('/');
-      } else {
-        alert('Đăng nhập thất bại: ' + response.data.message);
-      }
-    } catch (error) {
-      console.error('Có lỗi xảy ra:', error);
-      alert('Đăng nhập thất bại, vui lòng thử lại.');
+    if (!password) {
+      toast.error('Password is not valid');
+    }
+    let data = await postLogin(email, password);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      navigate('/');
+    }
+    if (data && data.EC !== 0) {
+      toast.error(data.EM);
     }
   };
   return (

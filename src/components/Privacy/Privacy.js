@@ -22,7 +22,7 @@ const Privacy = () => {
             MOTOGO, đã có nhiều khách hàng tin tưởng sử dụng dịch vụ thuê xe máy của chúng tôi nhiều
             lần tại nhiều tỉnh thành khác nhau.
           </p>
-          <img src={anhprivacy} height={'370px'} width={'600px'}></img>
+          <img alt="img" src={anhprivacy} height={'370px'} width={'600px'}></img>
           <p>
             Với chính sách khách hàng thân thiết của MOTOGO, chúng tôi hi vọng sẽ được đồng hành
             cùng khách hàng lâu hơn nữa trong quãng thời gian hoạt động của MOTOGO.
@@ -56,12 +56,12 @@ const Privacy = () => {
                 </a>
               </li>
               <li className="content-li-privacy">
-                <a className="nav-link-privacy" onClick={handleClickPrivacy}>
+                <a className="nav-link-privacy" onClick={handleClickPrivacy} href="#content2-right">
                   Thủ tục thuê xe
                 </a>
               </li>
               <li className="content-li-privacy">
-                <a className="nav-link-privacy" onClick={handleClickPrivacy}>
+                <a className="nav-link-privacy" onClick={handleClickPrivacy} href="#content3-right">
                   Giá thuê xe
                 </a>
               </li>
@@ -72,7 +72,9 @@ const Privacy = () => {
               </li>
               <li className="content-li-privacy">
                 {' '}
-                <a className="nav-link-privacy">Trách nhiệm bên cho thuê</a>
+                <a className="nav-link-privacy" href="#content5-right">
+                  Trách nhiệm bên cho thuê
+                </a>
               </li>
             </ul>
           </div>

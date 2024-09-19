@@ -5,7 +5,7 @@ import { postCreateNewUser } from '../../../services/apiService';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function ModalCreatUser(props) {
-  const [show, setShow] = useState(false);
+  const { show, setShow } = props;
 
   const handleClose = () => {
     setShow(false);
@@ -14,7 +14,7 @@ function ModalCreatUser(props) {
     setRole('USER');
     setPassword('');
   };
-  const handleShow = () => setShow(true);
+
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +43,8 @@ function ModalCreatUser(props) {
     if (res.data && res.data.EC === 0) {
       toast.success(res.data.EM);
       handleClose();
-      await props.fetchListUser();
+      props.setcurrentPage(1);
+      await props.fetchListuserWithPaginate(1);
     }
     if (res.data && res.data.EC !== 0) {
       toast.error(res.data.EM);
@@ -53,10 +54,6 @@ function ModalCreatUser(props) {
   };
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        ADD NEW USER
-      </Button>
-
       <Modal backdrop="static" show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Add new User</Modal.Title>

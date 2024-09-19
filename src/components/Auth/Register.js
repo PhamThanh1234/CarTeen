@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signin.css';
 import './Login.css';
-
-const Signin = (props) => {
+import { toast } from 'react-toastify';
+import { postRegister } from '../../services/apiService';
+const Register = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,6 +36,13 @@ const Signin = (props) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -42,31 +50,25 @@ const Signin = (props) => {
     if (!validateForm()) {
       return;
     }
-    const formData = {
-      username: username,
-      email: email,
-      password: password,
-    };
+    const isValidEmail = validateEmail(email);
+    if (!isValidEmail) {
+      toast.error('Invalid email');
+      return;
+    }
 
-    try {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      console.log(formData);
-      const data = await response.json();
+    if (!password) {
+      toast.error('Invalid password');
+      return;
+    }
+    //submit apis
+    let data = await postRegister(email, password, username);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      navigate('/login');
+    }
 
-      if (response.ok) {
-        alert('Đăng ký thành công!');
-        navigate('/');
-      } else {
-        setErrors({ apiError: data.message || 'Đăng ký thất bại, vui lòng thử lại.' });
-      }
-    } catch (error) {
-      setErrors({ apiError: 'Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.' });
+    if (data && +data.EC !== 0) {
+      toast.error(data.EM);
     }
   };
 
@@ -165,4 +167,4 @@ const Signin = (props) => {
   );
 };
 
-export default Signin;
+export default Register;

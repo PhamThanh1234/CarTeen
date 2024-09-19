@@ -12,7 +12,7 @@ const Header = () => {
     navigate('/login');
   };
   const handleSignin = () => {
-    navigate('/signin');
+    navigate('/register');
   };
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
