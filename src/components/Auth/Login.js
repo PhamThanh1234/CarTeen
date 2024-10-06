@@ -29,6 +29,7 @@ const Login = (props) => {
     let data = await postLogin(email, password);
     if (data && data.EC === 0) {
       toast.success(data.EM);
+      localStorage.setItem('token', data.token);
       navigate('/');
     }
     if (data && data.EC !== 0) {
