@@ -46,25 +46,26 @@ const Register = (props) => {
 
   const handleSignup = async (event) => {
     event.preventDefault();
+    console.log('checkdata', password, email, username, confirmPassword);
     // Kiểm tra lỗi trước khi gửi yêu cầu
-    if (!validateForm()) {
-      return;
-    }
-    const isValidEmail = validateEmail(email);
-    if (!isValidEmail) {
-      toast.error('Invalid email');
-      return;
-    }
+    // if (!validateForm()) {
+    //   return;
+    // }
+    // const isValidEmail = validateEmail(email);
+    // if (!isValidEmail) {
+    //   toast.error('Invalid email');
+    //   return;
+    // }
 
-    if (!password) {
-      toast.error('Invalid password');
-      return;
-    }
+    // if (!password) {
+    //   toast.error('Invalid password');
+    //   return;
+    // }
     //submit apis
-    let data = await postRegister(email, password, username);
-    if (data && data.EC === 0) {
+    const data = await postRegister(email, password, username, confirmPassword);
+    if (data) {
       toast.success(data.EM);
-      navigate('/login');
+      navigate('/');
     }
 
     if (data && +data.EC !== 0) {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 const instance = axios.create({
-  baseURL: 'api/get/',
+  baseURL: 'http://localhost:8080',
 });
 
 instance.interceptors.request.use(

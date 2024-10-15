@@ -17,22 +17,19 @@ const Login = (props) => {
   };
   const handleLogin = async (event) => {
     event.preventDefault();
+
     const isValidEmail = validateEmail(email);
-    if (!isValidEmail) {
-      toast.error('Email is not valid');
-      return;
-    }
 
     if (!password) {
       toast.error('Password is not valid');
     }
-    let data = await postLogin(email, password);
-    if (data && data.EC === 0) {
-      toast.success(data.EM);
+    const data = await postLogin(email, password);
+    console.log(data);
+    if (data && data.code === 1000) {
+      toast.success(data.code);
+      localStorage.setItem('token', data.result['token']);
+      console.log(localStorage.getItem('token'));
       navigate('/');
-    }
-    if (data && data.EC !== 0) {
-      toast.error(data.EM);
     }
   };
   return (
@@ -81,12 +78,12 @@ const Login = (props) => {
             </label>
             <div>
               <span className="span">Bạn chưa có tài khoản ?</span>
-              <a href="/signin">
+              <a href="/register">
                 <span className="span-signin">Đăng ký ngay</span>
               </a>
             </div>
             <div className="clearfix">
-              <button type="submit" className="signupbtn" onClick={() => handleLogin()}>
+              <button type="submit" className="signupbtn" onClick={(event) => handleLogin(event)}>
                 Đăng nhập
               </button>
             </div>
