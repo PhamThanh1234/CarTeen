@@ -1,7 +1,9 @@
 *{
     font-family:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
-
+.collapse {
+    visibility: visible;
+}
 @media only screen and (min-width: 300px)and (max-width: 600px) {
     .homepage-container .homepage-container-video video {
         width: 100% !important;

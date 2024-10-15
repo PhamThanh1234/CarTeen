@@ -12,6 +12,9 @@ import DashBoard from './components/Admin/Content/DashBoard';
 import ManageUser from './components/Admin/Content/ManageUser';
 import App from './App';
 import { Route, Routes } from 'react-router-dom';
+
+import ListBike from './components/ListBike/ListBike';
+import Detail from './components/ListBike/Detail';
 const Layout = (props) => {
   return (
     <>
@@ -22,6 +25,8 @@ const Layout = (props) => {
           <Route path="users" exact element={<User />} />
 
           <Route path="privacy" exact element={<Privacy />} />
+          <Route path="/listbike" exact element={<ListBike />} />
+          <Route path="/detail" exact element={<Detail />} />
         </Route>
         <Route path="/admin" exact element={<Admin />}>
           <Route index element={<DashBoard />} />

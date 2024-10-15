@@ -4,10 +4,12 @@ import './Homepage.css';
 import Question from './Questions/Questions';
 import Footer from '../Footer/Footer';
 import videoxe from '../../assets/xe.mp4';
+import { useNavigate } from 'react-router-dom';
 
-const HomePage = (props) => {
+const HomePage = () => {
   const videoRef = React.createRef();
-
+  const navigate = useNavigate();
+  
   return (
     <div className="homepage">
       <div className="homepage-container">
@@ -33,20 +35,23 @@ const HomePage = (props) => {
               </span>
             </p>
           </div>
-          <a href="/">
-            <button className="cssbuttons-io-button">
-              Get started
-              <div className="icon">
-                <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 0h24v24H0z" fill="none"></path>
-                  <path
-                    d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
-                    fill="currentColor"
-                  ></path>
-                </svg>
-              </div>
-            </button>
-          </a>
+          <button
+            className="cssbuttons-io-button"
+            onClick={() => {
+              navigate('/listbike'); // Use navigate to change the route
+            }}
+          >
+            Get started
+            <div className="icon">
+              <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none"></path>
+                <path
+                  d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
+          </button>
         </div>
       </div>
       <div className="homepage-content">
@@ -64,7 +69,6 @@ const HomePage = (props) => {
               </div>
               <div className="item-content-description">
                 <p>
-                  {' '}
                   Mô tả chi tiết nhu cầu thuê xe máy để Motorbike có thể tìm và giữ xe phù hợp nhất
                   cho bạn.
                 </p>
@@ -81,8 +85,7 @@ const HomePage = (props) => {
               </div>
               <div className="item-content-description">
                 <p>
-                  {' '}
-                  Sau khi đặt thành công, xác nhận thuê xe máy sẽ được gửi qua tin nhắn hoặc email
+                  Sau khi đặt thành công, xác nhận thuê xe máy sẽ được gửi qua tin nhắn hoặc email.
                 </p>
               </div>
             </div>

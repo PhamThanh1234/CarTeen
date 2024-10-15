@@ -7,7 +7,9 @@ const postCreateNewUser = (email, password, username, role) => {
   data.append('role', role);
   return axios.post('baseURL', data); // sửa lại link giống trên posman để chạyk
 };
-
+const getAllBikes = () => {
+  return axios.get('/motorbikes'); // sửa lại link giống trên posman để chạy chức năng này
+};
 const getAllUser = () => {
   return axios.get('/users'); // sửa lại link giống trên posman để chạy chức năng này
 };
@@ -44,4 +46,5 @@ export {
   getUserWithPaginate,
   postLogin,
   postRegister,
+  getAllBikes,
 };
