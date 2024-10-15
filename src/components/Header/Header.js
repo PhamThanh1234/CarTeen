@@ -2,11 +2,15 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 import './Header.css';
 
-const Header = () => {
+const Header = (props) => {
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const role = useSelector((state) => state.user.account.role);
+
   const navigate = useNavigate();
   const handleLogin = () => {
     navigate('/login');
@@ -26,12 +30,13 @@ const Header = () => {
             <NavLink className="nav-link" to="/">
               Home
             </NavLink>
-            <NavLink to="/users" className="nav-link">
-              Users
-            </NavLink>
-            <NavLink to="/admin" className="nav-link">
-              Admin
-            </NavLink>
+
+            {role === 'Admin' ? (
+              <NavLink to="/admin" className="nav-link">
+                Admin
+              </NavLink>
+            ) : null}
+
             <NavLink to="/introduce" className="nav-link">
               Giới thiệu
             </NavLink>
@@ -40,20 +45,25 @@ const Header = () => {
             </NavLink>
           </Nav>
           <Nav>
-            <button className="btn-login" onClick={() => handleLogin()}>
-              Đăng nhập
-            </button>
-            <button className="btn-signin" onClick={() => handleSignin()}>
-              Đăng ký
-            </button>
+            {isAuthenticated === false ? (
+              <>
+                <button className="btn-login" onClick={() => handleLogin()}>
+                  Đăng nhập
+                </button>
+                <button className="btn-signin" onClick={() => handleSignin()}>
+                  Đăng ký
+                </button>
+              </>
+            ) : (
+              <NavDropdown title="Account" id="basic-nav-dropdown">
+                <NavDropdown.Item href="./editprofile">Profile</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">Đăng xuất</NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
-          <NavDropdown title="Account" id="basic-nav-dropdown">
-            <NavDropdown.Item href="./editprofile">Profile</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Đăng xuất</NavDropdown.Item>
-          </NavDropdown>
         </Navbar.Collapse>
       </Container>
     </Navbar>

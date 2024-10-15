@@ -79,14 +79,14 @@ const ListBike = () => {
       locationName: 'Buôn Mê Thuột',
     },
     {
-      img: 'https://placehold.co/200x150',
+      img: 'https://cdn.honda.com.vn/motorbikes/August2024/WygAqXwJo74BFJ3EZ6Bg.png',
       label: 'Giao xe tận nơi',
       motorbikeName: 'Thuê xe số 115cc tại Đà Lạt – Yamaha PG-1',
       rentailPrice: '170.000đ/ngày',
       locationName: 'Đà Lạt',
     },
     {
-      img: 'https://placehold.co/200x150',
+      img: 'https://image.bnews.vn/MediaUpload/Org/2020/08/12/144532-frontview-1-.jpg',
       label: 'Chỗ nghỉ miễn phí',
       motorbikeName: 'Thuê xe số 110cc tại Hà Giang',
       rentailPrice: '180.000đ/ngày',

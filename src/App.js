@@ -1,9 +1,12 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header.js';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const App = () => {
+  const location = useLocation(); // Access location object
+  const { usename, status } = location.state || {};
+  console.log('check sa', status);
   return (
     <div className="app-container">
       <div className="header-container">

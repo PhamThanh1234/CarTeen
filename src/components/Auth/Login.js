@@ -4,10 +4,12 @@ import './Login.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { postLogin } from '../../services/apiService';
+import { useDispatch } from 'react-redux';
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -15,6 +17,7 @@ const Login = (props) => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -25,10 +28,16 @@ const Login = (props) => {
     }
     const data = await postLogin(email, password);
     console.log(data);
+
     if (data && data.code === 1000) {
       toast.success(data.code);
+
       localStorage.setItem('token', data.result['token']);
       console.log(localStorage.getItem('token'));
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: data,
+      });
       navigate('/');
     }
   };
