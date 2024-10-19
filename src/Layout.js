@@ -26,7 +26,7 @@ const Layout = (props) => {
 
           <Route path="privacy" exact element={<Privacy />} />
           <Route path="/listbike" exact element={<ListBike />} />
-          <Route path="/detail" exact element={<Detail />} />
+          <Route path="/detail/:id" exact element={<Detail />} />
         </Route>
         <Route path="/admin" exact element={<Admin />}>
           <Route index element={<DashBoard />} />

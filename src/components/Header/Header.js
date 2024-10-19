@@ -29,14 +29,15 @@ const Header = (props) => {
           <Nav className="me-auto">
             <NavLink className="nav-link" to="/">
               Home
+            </NavLink>{' '}
+            <NavLink className="nav-link" to="/listbike">
+              Xe
             </NavLink>
-
             {role === 'Admin' ? (
               <NavLink to="/admin" className="nav-link">
                 Admin
               </NavLink>
             ) : null}
-
             <NavLink to="/introduce" className="nav-link">
               Giới thiệu
             </NavLink>

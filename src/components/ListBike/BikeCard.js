@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 const BikeCard = ({ bike }) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate('/detail', {
+    navigate(`/detail/${bike.motorbikeID}`, {
       state: {
         bikeName: bike.motorbikeName,
         price: bike.rentailPrice,
