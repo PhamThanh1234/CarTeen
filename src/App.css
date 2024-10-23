@@ -216,6 +216,10 @@
        margin-left: 20px;
         width: 100%;
     }
+    .navbar-expand-lg .navbar-collapse {
+        
+        visibility: visible !important;
+    }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
