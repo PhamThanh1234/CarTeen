@@ -3,26 +3,19 @@ import { FcShipped, FcSearch, FcSurvey } from 'react-icons/fc';
 import './Homepage.css';
 import Question from './Questions/Questions';
 import Footer from '../Footer/Footer';
-import videoxe from '../../assets/xe.mp4';
+
 import { useNavigate } from 'react-router-dom';
+import VideoPlayer from './video';
 
 const HomePage = () => {
-  const videoRef = React.createRef();
+
   const navigate = useNavigate();
   
   return (
     <div className="homepage">
       <div className="homepage-container">
         <div className="homepage-container-video">
-          <video
-            ref={videoRef}
-            loop
-            muted
-            controls={false}
-            onLoadedData={() => videoRef.current.play()}
-          >
-            <source src={videoxe} type="video/mp4" />
-          </video>
+          <VideoPlayer/>
         </div>
         <div className="homepage-container-content">
           <div className="content-homepage">

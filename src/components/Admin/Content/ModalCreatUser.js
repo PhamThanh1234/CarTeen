@@ -40,16 +40,16 @@ function ModalCreatUser(props) {
     // Call API to create user
 
     let res = await postCreateNewUser(email, password, username, role);
-    if (res.data && res.data.EC === 0) {
-      toast.success(res.data.EM);
+    if (res && res.code === 201) {
+      toast.success(res.code);
       handleClose();
       props.setcurrentPage(1);
       await props.fetchListuserWithPaginate(1);
     }
-    if (res.data && res.data.EC !== 0) {
-      toast.error(res.data.EM);
+    if (res && res.code === 201) {
+      toast.success(res.code);
     }
-    console.log(res.data);
+
     setShow(false);
   };
   return (

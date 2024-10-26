@@ -3,9 +3,11 @@ import LocationButtons from './LocationButtons';
 import BikeGird from './BikeGird';
 import { getAllBikes } from '../../services/apiService';
 import React from 'react';
-// import { Spin } from 'antd';
+import { Spin } from 'antd';
 import { AuthContext } from '../Context/authcontext';
+
 const ListBike = () => {
+  const [appLoading, setAppLoading] = useState(false);
   const locations = [
     'Đà Lạt',
     'Nha Trang',
@@ -110,10 +112,12 @@ const ListBike = () => {
     fetchListBike();
   }, []);
   const fetchListBike = async () => {
+    setAppLoading(true);
     const res = await getAllBikes();
     if (res) {
       setListBike(res);
     }
+    setAppLoading(false);
   };
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -136,7 +140,7 @@ const ListBike = () => {
         selectedLocation={selectedLocation}
         onLocationClick={handleLocationClick}
       />
-      {/* {appLoading === true ? (
+      {appLoading === true ? (
         <div
           style={{
             position: 'fixed',
@@ -151,8 +155,7 @@ const ListBike = () => {
         <>
           <BikeGird bikes={filteredBikes} />
         </>
-      )} */}
-      <BikeGird bikes={filteredBikes} />
+      )}
     </div>
   );
 };

@@ -84,20 +84,20 @@ const ManageUser = () => {
     },
   ]);
   useEffect(() => {
-    // fetchListuser();
-    fetchListuserWithPaginate(1);
+    fetchListuser();
+    // fetchListuserWithPaginate(1);
   }, []);
   const fetchListuser = async () => {
     const res = await getAllUser();
-    if (res.EC === 0) {
-      setListUser(res.DT);
+    if (res) {
+      setListUser(res);
     }
   };
   const fetchListuserWithPaginate = async (page) => {
     const res = await getUserWithPaginate(page, LIMIT_USER);
-    if (res.EC === 0) {
-      setListUser(res.DT.users);
-      setPageCount(res.DT);
+    if (res) {
+      setListUser(res);
+      setPageCount(res);
     }
   };
   const handleClickBtnUpdate = (user) => {
@@ -136,6 +136,7 @@ const ManageUser = () => {
           listUser={listUser}
           handleClickBtnUpdate={handleClickBtnUpdate}
           handleClickBtnDelete={handleClickBtnDelete}
+          fetchListuser= {fetchListuser}
           fetchListuserWithPaginate={fetchListuserWithPaginate}
           pageCount={pageCount}
           currentPage={currentPage}

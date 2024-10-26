@@ -2,14 +2,14 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useSelector } from 'react-redux';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import './Header.css';
+import { useContext } from 'react';
+import { AuthContext } from '../Context/authcontext';
 
 const Header = (props) => {
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const role = useSelector((state) => state.user.account.role);
+  const { auth, setAuth } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const handleLogin = () => {
@@ -17,6 +17,16 @@ const Header = (props) => {
   };
   const handleSignin = () => {
     navigate('/register');
+  };
+  const handleLogout = () => {
+    localStorage.clear('token');
+    setAuth({
+      isAuthenticated: false,
+      user: {
+        role: '',
+        name: '',
+      },
+    });
   };
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -33,7 +43,7 @@ const Header = (props) => {
             <NavLink className="nav-link" to="/listbike">
               Xe
             </NavLink>
-            {role === 'Admin' ? (
+            {auth?.user?.role === 'Admin' ? (
               <NavLink to="/admin" className="nav-link">
                 Admin
               </NavLink>
@@ -46,7 +56,7 @@ const Header = (props) => {
             </NavLink>
           </Nav>
           <Nav>
-            {isAuthenticated === false ? (
+            {auth.isAuthenticated === false ? (
               <>
                 <button className="btn-login" onClick={() => handleLogin()}>
                   Đăng nhập
@@ -56,12 +66,14 @@ const Header = (props) => {
                 </button>
               </>
             ) : (
-              <NavDropdown title="Account" id="basic-nav-dropdown">
+              <NavDropdown title={auth?.user?.name ?? 'Account'} id="basic-nav-dropdown">
                 <NavDropdown.Item href="./editprofile">Profile</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Đăng xuất</NavDropdown.Item>
+                <NavDropdown.Item href="/" onClick={() => handleLogout()}>
+                  Đăng xuất
+                </NavDropdown.Item>
               </NavDropdown>
             )}
           </Nav>

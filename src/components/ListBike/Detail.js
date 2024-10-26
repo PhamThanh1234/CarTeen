@@ -1,9 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import BillCard from './BillCard';
 import { useState } from 'react';
+
 const Detail = (props) => {
   const location = useLocation(); // Access location object
-  const { bikeName, price, img } = location.state || {};
+  const { bikeName, price, img, locationName } = location.state || {};
+
   const [formData, setFormData] = useState({
     soluong: '',
     address: '',
@@ -14,6 +16,7 @@ const Detail = (props) => {
     returnTime: '18:00',
     returnAtPickup: false,
     bikeName: bikeName,
+    location: locationName,
   });
 
   const [errors, setErrors] = useState({}); // State to store validation errors
@@ -50,10 +53,14 @@ const Detail = (props) => {
   };
 
   const handleSubmit = (e) => {
+    const error = validateForm();
+    console.log(error);
     e.preventDefault();
-    if (validateForm()) {
+    if (error === true) {
       setStatus(true);
       console.log('Valid Data:', formData);
+    } else {
+      setStatus(false); // Hide BillCard if invalid
     }
   };
   return (
@@ -70,13 +77,13 @@ const Detail = (props) => {
                 <p>Tiện ích: Mũ bảo hiểm, Xăng (1l), Giao xe tận nơi</p>
                 <div className="flex items-center mt-2">
                   <i className="fas fa-map-marker-alt text-blue-500"></i>
-                  <a href="#" className="text-blue-500 ml-2">
+                  <a href="/" className="text-blue-500 ml-2">
                     Hướng dẫn nhận xe
                   </a>
                 </div>
                 <div className="flex items-center mt-2">
                   <i className="fas fa-map-marker-alt text-blue-500"></i>
-                  <a href="#" className="text-blue-500 ml-2">
+                  <a href="/" className="text-blue-500 ml-2">
                     Hướng dẫn trả xe
                   </a>
                 </div>
@@ -85,13 +92,13 @@ const Detail = (props) => {
           </div>
           <div className="border p-4 mb-4">
             <h2 className="font-bold mb-2">Thông tin chi tiết</h2>
-            <a href="#" className="text-blue-500 block mb-2">
+            <a href="/" className="text-blue-500 block mb-2">
               Thời gian thuê tối thiểu
             </a>
-            <a href="#" className="text-blue-500 block mb-2">
+            <a href="/" className="text-blue-500 block mb-2">
               Tính 1 ngày thuê xe bằng 24 tiếng
             </a>
-            <a href="#" className="text-blue-500 block">
+            <a href="/" className="text-blue-500 block">
               Hủy thuê xe máy
             </a>
           </div>
@@ -115,7 +122,7 @@ const Detail = (props) => {
         <div className="w-1/3 pl-4">
           <div className="border p-4">
             <h2 className="text-red-500 text-xl font-bold mb-4">{price}VND/giờ</h2>
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="mb-4">
                 <label className="block mb-2">Số lượng xe *</label>
                 <input
@@ -206,9 +213,16 @@ const Detail = (props) => {
                 </div>
                 {errors.returnDate && <p className="text-red-500">{errors.returnDate}</p>}
               </div>
-              <div onClick={handleSubmit}>
-                <BillCard data={formData} status={status} />
+              <div onClick={(event) => handleSubmit(event)}>
+                <button className="btn btn-primary">Đăng ký thuê xe</button>
               </div>
+              <BillCard
+                data={formData}
+                show={status}
+                setShow={setStatus}
+                errors={errors}
+                setErrors={setErrors}
+              />
             </form>
           </div>
         </div>

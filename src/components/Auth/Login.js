@@ -1,27 +1,20 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { postLogin } from '../../services/apiService';
-import { useDispatch } from 'react-redux';
+
+import { AuthContext } from '../Context/authcontext';
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
+
+  const { setAuth } = useContext(AuthContext);
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    const isValidEmail = validateEmail(email);
 
     if (!password) {
       toast.error('Password is not valid');
@@ -34,9 +27,12 @@ const Login = (props) => {
 
       localStorage.setItem('token', data.result['token']);
       console.log(localStorage.getItem('token'));
-      dispatch({
-        type: 'LOGIN_SUCCESS',
-        payload: data,
+      setAuth({
+        isAuthenticated: true,
+        user: {
+          role: data?.result?.role ?? '',
+          name: data?.result?.username ?? '',
+        },
       });
       navigate('/');
     }
