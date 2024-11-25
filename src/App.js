@@ -8,32 +8,46 @@ import { reloadUser } from './services/apiService.js';
 import { AuthContext } from './components/Context/authcontext.jsx';
 import { Spin } from 'antd';
 const App = () => {
-  const { setAuth, appLoading, setAppLoading } = useContext(AuthContext);
+  const { auth, setAuth, appLoading, setAppLoading } = useContext(AuthContext);
   const token = localStorage.getItem('token');
+  console.log(token);
   useEffect(() => {
     if (token) {
       const fetchAccount = async () => {
         setAppLoading(true);
         const data = await reloadUser(token);
+        console.log('Data:', data);
         if (data) {
           setAuth({
             isAuthenticated: true,
             user: {
               role: data?.role ?? '',
               name: data?.username ?? '',
+              id: data?.id ?? '',
+              fullName: data?.fullName ?? '',
             },
           });
+          console.log(auth);
         } else {
-          setAppLoading(false);
+          setAuth({
+            isAuthenticated: false,
+            user: {
+              role: data?.role ?? '',
+              name: data?.username ?? '',
+              id: data?.id ?? '',
+              fullName: data?.fullName ?? '',
+            },
+          });
         }
         setAppLoading(false);
       };
+      setAppLoading(false);
       fetchAccount();
     }
-  });
+  }, []);
 
   return (
-    <div className="app-container">
+    <>
       {appLoading === true ? (
         <div
           style={{
@@ -47,18 +61,20 @@ const App = () => {
         </div>
       ) : (
         <>
-          <div className="header-container">
-            <Header />
-          </div>
-          <div className="main-container">
-            <div className="sidenav-container"></div>
-            <div className="app-content">
-              <Outlet />
+          <div className="app-container">
+            <div className="header-container">
+              <Header />
+            </div>
+            <div className="main-container">
+              <div className="sidenav-container"></div>
+              <div className="app-content">
+                <Outlet />
+              </div>
             </div>
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 

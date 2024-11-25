@@ -31,7 +31,8 @@ function ModalUpdateUser(props) {
   }, [dataUpdate]);
 
   const handleSubmitCreateUser = async () => {
-    let res = await postUpdateUser(dataUpdate.id, username, role);
+    console.log('check data:', dataUpdate.id, username, role);
+    const res = await postUpdateUser(dataUpdate.id, username, role);
     if (res && res.EC === 0) {
       toast.success(res.EM);
       handleClose();

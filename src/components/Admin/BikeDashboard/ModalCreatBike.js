@@ -4,8 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import { postCreateNewUser } from '../../../services/apiService';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function ModalCreatUser(props) {
-  const { show, setShow, fetchListuser } = props;
+function ModalCreatBike(props) {
+  const { show, setShow } = props;
 
   const handleClose = () => {
     setShow(false);
@@ -40,10 +40,11 @@ function ModalCreatUser(props) {
     // Call API to create user
 
     let res = await postCreateNewUser(email, password, username, role);
-    if (res) {
-      toast.success(res);
+    if (res && res.code === 201) {
+      toast.success(res.code);
       handleClose();
-      await props.fetchListuser();
+      props.setcurrentPage(1);
+      await props.fetchListuserWithPaginate(1);
     }
     if (res && res.code === 201) {
       toast.success(res.code);
@@ -127,4 +128,4 @@ function ModalCreatUser(props) {
     </>
   );
 }
-export default ModalCreatUser;
+export default ModalCreatBike;

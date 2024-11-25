@@ -62,10 +62,10 @@ const Register = (props) => {
     //   return;
     // }
     //submit apis
-    const data = await postRegister(email, password, username, confirmPassword);
+    const data = await postRegister(email, username, password, confirmPassword);
     if (data) {
-      toast.success(data.EM);
-      navigate('/');
+      toast.success(data.code);
+      // navigate('/login');
     }
 
     if (data && +data.EC !== 0) {

@@ -1,42 +1,38 @@
-import ModalCreatUser from './ModalCreatUser';
-import ModalUpdateUser from './ModalUpdateUser';
-import { useState, useEffect  } from 'react';
-import './ManageUser.css';
-import { getAllUser, getUserWithPaginate } from '../../../services/apiService';
-import ModalDeleteUser from './ModalDeleteUser';
-import TableUserPaginate from './TableUserPaginate';
-import { Spin } from 'antd';
-import TableUser from './TableUser';
+import ModalCreatBike from './ModalCreatBike';
+import ModalUpdateBike from './ModalUpdateBike';
+import { useState, useEffect } from 'react';
 
-const ManageUser = () => {
+import { getAllBikes, getUserWithPaginate } from '../../../services/apiService';
+import ModalDeleteBike from './ModalDeleteBike';
+import TableBike from './TableBike';
+import { Spin } from 'antd';
+const ManageBike = () => {
   const [showModalCreateUser, setshowModalCreateUser] = useState(false);
   const [showModalUpdateUser, setshowModalUpdateUser] = useState(false);
   const [showModalDeleteUser, setshowModalDeleteUser] = useState(false);
   const [dataUpdate, setdataUpdate] = useState('');
   const [dataDelete, setdataDelete] = useState('');
   const LIMIT_USER = 6;
+  const [appLoading, setAppLoading] = useState(false);
   const [currentPage, setcurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const token = localStorage.getItem('token');
-  const [appLoading, setAppLoading ] = useState(false);
-  const [listUser, setListUser] = useState([]);
+  const [listBike, setListBike] = useState([]);
   useEffect(() => {
     fetchListuser();
     // fetchListuserWithPaginate(1);
   }, []);
   const fetchListuser = async () => {
-    setAppLoading(true)
-    const res = await getAllUser(token);
+    setAppLoading(true);
+    const res = await getAllBikes();
     if (res) {
-      setListUser(res);
-      
+      setListBike(res);
     }
-    setAppLoading(false)
+    setAppLoading(false);
   };
   const fetchListuserWithPaginate = async (page) => {
     const res = await getUserWithPaginate(page, LIMIT_USER);
     if (res) {
-      setListUser(res);
+      setListBike(res);
       setPageCount(res);
     }
   };
@@ -65,63 +61,58 @@ const ManageUser = () => {
           </button>
         </div>
 
-        
         {appLoading === true ? (
-        <div
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          <Spin />
-        </div>
-      ) : (
-        <>
-         <div className="table-user">
-          <TableUser
-          listUser={listUser}
-          handleClickBtnUpdate={handleClickBtnUpdate}
-          handleClickBtnDelete={handleClickBtnDelete}
-          fetchListuser= {fetchListuser}
-       
-        />
-        </div>
-        </>
-      )}
-        
-       
-        
-        <ModalCreatUser
+          <div
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <Spin />
+          </div>
+        ) : (
+          <>
+            <div className="table-user">
+              <TableBike
+                listBike={listBike}
+                handleClickBtnUpdate={handleClickBtnUpdate}
+                handleClickBtnDelete={handleClickBtnDelete}
+              />
+            </div>
+          </>
+        )}
+        <ModalCreatBike
           show={showModalCreateUser}
           setShow={setshowModalCreateUser}
           fetchListuserWithPaginate={fetchListuserWithPaginate}
-          
+          currentPage={currentPage}
           fetchListuser={fetchListuser}
-          
+          setcurrentPage={setcurrentPage}
         />
-        <ModalUpdateUser
+        <ModalUpdateBike
           show={showModalUpdateUser}
           setShow={setshowModalUpdateUser}
           dataUpdate={dataUpdate}
-          
+          fetchListuserWithPaginate={fetchListuserWithPaginate}
           resetUpdateData={resetUpdateData}
-          
+          currentPage={currentPage}
           fetchListuser={fetchListuser}
-       
+          setcurrentPage={setcurrentPage}
         />
-        <ModalDeleteUser
+        <ModalDeleteBike
           show={showModalDeleteUser}
           setShow={setshowModalDeleteUser}
           dataDelete={dataDelete}
           fetchListuser={fetchListuser}
-          setListUser={setListUser}
-          
+          fetchListuserWithPaginate={fetchListuserWithPaginate}
+          currentPage={currentPage}
+          setcurrentPage={setcurrentPage}
         />
       </div>
     </div>
   );
 };
 
-export default ManageUser;
+export default ManageBike;

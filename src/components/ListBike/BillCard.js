@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { CreateInvoice, getListBillCar } from '../../services/apiService';
+import { getListBillCar } from '../../services/apiService';
 import { Spin } from 'antd';
+import { useNavigate } from 'react-router-dom';
 function BillCard(props) {
-  const { show, setShow, data } = props;
+  const { show, setShow, data, total } = props;
   const [billLoading, setBillLoading] = useState(false);
   const [totalCost, setTotalCost] = useState(0);
   const [carInfo, setCarInfo] = useState([]);
-  const [isoTime, setIsoTime] = useState('');
 
+  const navigate = useNavigate();
   const calculateRentalHours = () => {
     const pickup = new Date(`${data.pickupDate}T${data.pickupTime}`);
     const returnDate = new Date(`${data.returnDate}T${data.returnTime}`);
@@ -17,9 +18,16 @@ function BillCard(props) {
     return Math.floor(diffInMs / (1000 * 60 * 60));
   };
 
+  const calculateTotalPayment = (carInfo, rentalHours) => {
+    if (!Array.isArray(carInfo) || carInfo.length === 0) {
+      return 0; // Trả về 0 nếu carInfo không phải là mảng hoặc mảng trống
+    }
+    return carInfo.reduce((sum, car) => sum + car.rentalPrice * rentalHours, 0);
+  };
+
   const calculateTotalCost = () => {
     const rentalHours = calculateRentalHours();
-    const total = carInfo.reduce((sum, car) => sum + car.price * rentalHours, 0);
+    const total = calculateTotalPayment(carInfo, rentalHours);
     setTotalCost(total);
   };
 
@@ -28,8 +36,11 @@ function BillCard(props) {
       setBillLoading(true);
       calculateTotalCost();
       const res = await getListBillCar(data.bikeName, data.location, data.soluong);
+      console.log('checkdata', data);
+      console.log('Kết quả API:', res);
       if (res) {
         setCarInfo(res);
+        calculateTotalCost();
       }
       setBillLoading(false);
     }
@@ -41,28 +52,24 @@ function BillCard(props) {
   };
 
   const handleCreateBillCard = async () => {
-    const now = new Date();
-    const localIsoTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-      .toISOString()
-      .slice(0, 19);
-    setIsoTime(localIsoTime);
-
-    const rentalHour = calculateRentalHours();
-    const res = await CreateInvoice(
-      data.bikeName,
-      data.location,
-      data.soluong,
-      isoTime,
-      rentalHour
-    );
-    if (res) {
-      handleClose(); // Close the modal after successful creation
-    }
+    navigate(`/paymentinvoice`, {
+      state: {
+        carInfo,
+        name: data.name,
+        location: data.location,
+        address: data.address,
+        phone: data.phone,
+        Total: total * calculateRentalHours(),
+        time: calculateRentalHours(),
+      },
+    });
   };
 
   useEffect(() => {
+    calculateTotalCost();
     if (show) {
       handleShow(); // Chỉ gọi khi modal đang mở
+      calculateTotalCost();
     }
   }, [show]);
 
@@ -107,23 +114,27 @@ function BillCard(props) {
             <h2 className="text-lg font-semibold mb-2">Danh Sách Xe</h2>
             <div className="p-4 border rounded">
               <ul className="ul-listbillcar">
-                {carInfo.map((car, index) => (
-                  <li key={index} className="mb">
-                    <p>
-                      <strong>Tên xe:</strong> {car.motorbikeName}
-                    </p>
-                    <p>
-                      <strong>Loại xe:</strong> {car.typeName}
-                    </p>
-                    <p>
-                      <strong>Biển số:</strong> {car.licensePlate}
-                    </p>
-                    <p>
-                      <strong>Giá thuê/giờ:</strong> {car.rentalPrices} VNĐ
-                    </p>
-                    {index < carInfo.length - 1 && <hr className="my-4 border-black" />}
-                  </li>
-                ))}
+                {Array.isArray(carInfo) && carInfo.length > 0 ? (
+                  carInfo.map((car, index) => (
+                    <li key={index} className="mb">
+                      <p>
+                        <strong>Tên xe:</strong> {car.motorbikeName}
+                      </p>
+                      <p>
+                        <strong>Loại xe:</strong> {car.typeName}
+                      </p>
+                      <p>
+                        <strong>Biển số:</strong> {car.licensePlate}
+                      </p>
+                      <p>
+                        <strong>Giá thuê/giờ:</strong> {car.rentalPrice} VNĐ
+                      </p>
+                      {index < carInfo.length - 1 && <hr className="my-4 border-black" />}
+                    </li>
+                  ))
+                ) : (
+                  <p>Không có thông tin xe nào.</p>
+                )}
               </ul>
             </div>
           </div>
@@ -144,7 +155,9 @@ function BillCard(props) {
           </div>
 
           <div className="text-right mb-6">
-            <p className="text-lg font-semibold">Tổng Chi Phí: {totalCost} VNĐ</p>
+            <p className="text-lg font-semibold">
+              Tổng Chi Phí: {total * calculateRentalHours()} VNĐ
+            </p>
           </div>
         </Modal.Body>
       )}

@@ -7,20 +7,28 @@ import { AuthContext } from '../Context/authcontext';
 const Admin = (props) => {
   const { auth } = useContext(AuthContext);
   return (
-    <>
-      {auth.user.role === 'ADMIN' ? (
-        <>ERROR</>
-      ) : (
-        <div className="admin-container">
-          <div className="admin-sidebar">
-            <SideBar />
-          </div>
-          <div className="admin-content">
-            <Outlet />
-          </div>
-        </div>
-      )}
-    </>
+    // <>
+    //   {auth.user.role === 'ADMIN' ? (
+    //     <>ERROR</>
+    //   ) : (
+    //     <div className="admin-container">
+    //       <div className="admin-sidebar">
+    //         <SideBar />
+    //       </div>
+    //       <div className="admin-content">
+    //         <Outlet />
+    //       </div>
+    //     </div>
+    //   )}
+    // </>
+    <div className="admin-container">
+      <div className="admin-sidebar">
+        <SideBar />
+      </div>
+      <div className="admin-content">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 

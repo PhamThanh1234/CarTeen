@@ -43,11 +43,14 @@ const Header = (props) => {
             <NavLink className="nav-link" to="/listbike">
               Xe
             </NavLink>
-            {auth?.user?.role === 'Admin' ? (
+            {/* {auth?.user?.role === 'Admin' ? (
               <NavLink to="/admin" className="nav-link">
                 Admin
               </NavLink>
-            ) : null}
+            ) : null} */}
+            <NavLink to="/admin" className="nav-link">
+              Admin
+            </NavLink>
             <NavLink to="/introduce" className="nav-link">
               Giới thiệu
             </NavLink>
@@ -56,7 +59,7 @@ const Header = (props) => {
             </NavLink>
           </Nav>
           <Nav>
-            {auth.isAuthenticated === false ? (
+            {auth.isAuthenticated === false && auth.user.name === '' ? (
               <>
                 <button className="btn-login" onClick={() => handleLogin()}>
                   Đăng nhập
@@ -66,10 +69,9 @@ const Header = (props) => {
                 </button>
               </>
             ) : (
-              <NavDropdown title={auth?.user?.name ?? 'Account'} id="basic-nav-dropdown">
-                <NavDropdown.Item href="./editprofile">Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown title={auth.user.name ?? 'Account'} id="basic-nav-dropdown">
+                <NavDropdown.Item href="/editprofile">Thông tin cá nhân</NavDropdown.Item>
+
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/" onClick={() => handleLogout()}>
                   Đăng xuất

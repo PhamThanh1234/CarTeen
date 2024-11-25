@@ -1,12 +1,13 @@
 import { useLocation } from 'react-router-dom';
 import BillCard from './BillCard';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { countMotorbikeCanRent } from '../../services/apiService';
 const Detail = (props) => {
   const location = useLocation(); // Access location object
   const { bikeName, price, img, locationName } = location.state || {};
 
   const [formData, setFormData] = useState({
+    name: '',
     soluong: '',
     address: '',
     phone: '',
@@ -18,7 +19,8 @@ const Detail = (props) => {
     bikeName: bikeName,
     location: locationName,
   });
-
+  const [count, setCount] = useState();
+  const [total, setTotal] = useState();
   const [errors, setErrors] = useState({}); // State to store validation errors
 
   const handleChange = (e) => {
@@ -27,6 +29,15 @@ const Detail = (props) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+  };
+  useEffect(() => {
+    fetchCountCar();
+  }, []);
+  const fetchCountCar = async () => {
+    const res = await countMotorbikeCanRent(bikeName, locationName);
+    if (res) {
+      setCount(res.count);
+    }
   };
   const [status, setStatus] = useState(false);
   const validateForm = () => {
@@ -62,6 +73,7 @@ const Detail = (props) => {
     } else {
       setStatus(false); // Hide BillCard if invalid
     }
+    setTotal(formData.soluong * price);
   };
   return (
     <div className="container mx-auto p-4">
@@ -75,6 +87,7 @@ const Detail = (props) => {
                 <h2 className="font-bold">Dòng xe bất kỳ</h2>
                 <p>Đời xe: từ 2016</p>
                 <p>Tiện ích: Mũ bảo hiểm, Xăng (1l), Giao xe tận nơi</p>
+                <p>Số lượng xe có thể thuê : {count}</p>
                 <div className="flex items-center mt-2">
                   <i className="fas fa-map-marker-alt text-blue-500"></i>
                   <a href="/" className="text-blue-500 ml-2">
@@ -146,7 +159,17 @@ const Detail = (props) => {
                 />
                 {errors.address && <p className="text-red-500">{errors.address}</p>}
               </div>
-
+              <div className="mb-4">
+                <label className="block mb-2">Tên khách hàng</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  className="w-full border p-2"
+                  onChange={handleChange}
+                />
+                {errors.address && <p className="text-red-500">{errors.address}</p>}
+              </div>
               <div className="mb-4">
                 <label className="block mb-2">Số điện thoại *</label>
                 <input
@@ -221,6 +244,7 @@ const Detail = (props) => {
                 show={status}
                 setShow={setStatus}
                 errors={errors}
+                total={total}
                 setErrors={setErrors}
               />
             </form>

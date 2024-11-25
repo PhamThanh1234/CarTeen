@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import { deleteUser } from '../../../services/apiService';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function ModalDeleteUser(props) {
+function ModalDeleteBike(props) {
   const { show, setShow, dataDelete } = props;
 
   const handleClose = () => setShow(false);
@@ -11,10 +11,12 @@ function ModalDeleteUser(props) {
     // Call API to create user
 
     let res = await deleteUser(dataDelete.id);
-    if (res) {
-      toast.success(res);
+    if (res.data && res.data.EC === 0) {
+      toast.success(res.data.EM);
       handleClose();
-      await props.fetchListuser();
+      // await props.fetchListUser();
+      props.setcurrentPage(1);
+      await props.fetchListuserWithPaginate(1);
     }
     if (res.data && res.data.EC !== 0) {
       toast.error(res.data.EM);
@@ -43,4 +45,4 @@ function ModalDeleteUser(props) {
   );
 }
 
-export default ModalDeleteUser;
+export default ModalDeleteBike;

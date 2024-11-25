@@ -1,5 +1,5 @@
-const TableUser = (props) => {
-  const { listUser, handleClickBtnUpdate, handleClickBtnDelete } = props;
+const TableBike = (props) => {
+  const { listBike } = props;
 
   return (
     <>
@@ -14,21 +14,25 @@ const TableUser = (props) => {
           </tr>
         </thead>
         <tbody>
-          {listUser &&
-            listUser.length > 0 &&
-            listUser.map((item, index) => {
+          {listBike &&
+            listBike.length > 0 &&
+            listBike.map((item, index) => {
               return (
                 <tr key={`table-user - ${index}`}>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.username}</td>
-                  <td>{item.email}</td>
-                  <td>{item.role}</td>
+                  <th scope="row">{item.motorbikeId}</th>
+                  <td>{item.typeName}</td>
+                  <td>{item.motorbikeName}</td>
+                  <td>{item.locationName}</td>
+                  <td>{item.licensePlate}</td>
+                  <td>{item.rentalPrice}</td>
+                  <td>{item.status}</td>
+
                   <td>
                     <button className="btn btn-primary">Edit</button>
                     <button
                       className="btn btn-warning mx-3"
                       onClick={() => {
-                        handleClickBtnUpdate(item);
+                        props.handleClickBtnUpdate(item);
                       }}
                     >
                       Update{' '}
@@ -37,7 +41,7 @@ const TableUser = (props) => {
                     <button
                       className="btn btn-danger ml-2"
                       onClick={() => {
-                        handleClickBtnDelete(item);
+                        props.handleClickBtnDelete(item);
                       }}
                     >
                       Delete
@@ -46,11 +50,11 @@ const TableUser = (props) => {
                 </tr>
               );
             })}
-          {listUser && listUser.length === 0}
+          {listBike && listBike.length === 0}
         </tbody>
       </table>
     </>
   );
 };
 
-export default TableUser;
+export default TableBike;

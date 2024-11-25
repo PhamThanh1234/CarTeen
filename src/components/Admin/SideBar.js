@@ -9,7 +9,7 @@ import {
 } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 //import icons from react icons
-import { FaRegHeart } from 'react-icons/fa';
+import { FcAutomotive } from 'react-icons/fc';
 import { FiLogOut } from 'react-icons/fi';
 import { RiPencilLine } from 'react-icons/ri';
 import { BiCog } from 'react-icons/bi';
@@ -44,7 +44,9 @@ const SideBar = () => {
               <MenuItem icon={<FcManager />}>
                 ManageUser <Link to="/admin/manageuser" />
               </MenuItem>
-              <MenuItem icon={<FaRegHeart />}>Favourite</MenuItem>
+              <MenuItem icon={<FcAutomotive />}>
+                Favourite <Link to="/admin/managebike" />
+              </MenuItem>
               <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
               <MenuItem icon={<BiCog />}>Settings</MenuItem>
             </Menu>

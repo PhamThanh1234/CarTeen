@@ -1,24 +1,18 @@
 import axios from '../utils/axiosCustomize';
+import axiosutral from '../utils/axiosInstance';
 const postCreateNewUser = (email, password, username, role) => {
-  const data = new FormData();
-  data.append('email', email);
-  data.append('password', password);
-  data.append('username', username);
-  data.append('role', role);
+  const data = { email, password, username, role };
   return axios.post('/addUser', data); // sửa lại link giống trên posman để chạyk
 };
 const getAllBikes = () => {
   return axios.get('/motorbikes'); // sửa lại link giống trên posman để chạy chức năng này
 };
-const getAllUser = () => {
-  return axios.get('/users'); // sửa lại link giống trên posman để chạy chức năng này
+const getAllUser = (token) => {
+  return axios.get('/users', token); // sửa lại link giống trên posman để chạy chức năng này
 };
 const postUpdateUser = (username, role, id) => {
-  const data = new FormData();
-  data.append('id', id);
-  data.append('username', username);
-  data.append('role', role);
-  return axios.put('baseURL', data); // sửa lại link giống trên posman để chạyk
+  const data = { id, username, role };
+  return axios.put(`/updateUser/${id}`, data); // sửa lại link giống trên posman để chạyk
 };
 
 const deleteUser = (userID) => {
@@ -31,17 +25,17 @@ const getUserWithPaginate = (page, limit) => {
 const postLogin = (email, password) => {
   const data = { email, password };
 
-  return axios.post(`/login`, data);
+  return axiosutral.post(`/login`, data);
 };
 
-const getListBillCar = (motobikename, location, count) => {
-  const data = { motobikename, location, count };
+const getListBillCar = (motorbikeName, locationName, count) => {
+  const data = { motorbikeName, locationName, count };
 
-  return axios.get(`/motorbikes/motorbikeName-locationName`, data);
+  return axios.post(`/motorbikes/motorbikeName-locationName`, data);
 };
-const postRegister = (email, password, username, confirmPassword) => {
+const postRegister = (email, username, password, confirmPassword) => {
   const data = { username, email, password, confirmPassword };
-  return axios.post(`/register`, data);
+  return axiosutral.post(`/register`, data);
 };
 const reloadUser = (token) => {
   return axios.get('/reloadUser', token);
@@ -50,7 +44,29 @@ const CreateInvoice = (motorbikeName, locationName, count, receiptDate, retalHou
   const data = { motorbikeName, locationName, count, receiptDate, retalHours };
   return axios.post('/invoices/createInvoiceTest', data);
 };
+const countMotorbikeCanRent = (motorbikeName, locationName) => {
+  const data = { motorbikeName, locationName };
+  return axios.post('/motorbikes/countMotorbikeRent', data);
+};
+
+const getMyinfo = (token) => {
+  return axios.get('/myInfo', token); // sửa lại link giống trên posman để chạy chức năng này
+};
+const updateMe = (id, fullName, username, name, phone, address, cccd, sex, token) => {
+  const data = { id, fullName, username, name, phone, address, sex, cccd };
+  console.log('Check api', data, token);
+  return axios.put(`/me/${id}`, data, token);
+};
+const createInvoice = (data) => {
+  const token = localStorage.getItem('token');
+  return axios.post('/invoice/createInvoice', data, token);
+};
+const getInvoice = (id) => {
+  const token = localStorage.getItem('token');
+  return axios.get(`invoice/${id}`, token);
+};
 export {
+  createInvoice,
   postCreateNewUser,
   getAllUser,
   postUpdateUser,
@@ -62,4 +78,8 @@ export {
   getListBillCar,
   reloadUser,
   CreateInvoice,
+  countMotorbikeCanRent,
+  getMyinfo,
+  updateMe,
+  getInvoice,
 };
