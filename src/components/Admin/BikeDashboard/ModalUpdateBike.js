@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { postUpdateUser } from '../../../services/apiService';
+import { postUpdateBike } from '../../../services/apiService';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import _ from 'lodash';
@@ -11,32 +11,52 @@ function ModalUpdateBike(props) {
 
   const handleClose = () => {
     setShow(false);
-    setEmail('');
-    setUsername('');
-    setRole('USER');
+
+    setName('');
+    setLocation(''); // Reset giá trị mặc định
+
+    setPrice('');
+
     props.resetUpdateData();
   };
 
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [name, setName] = useState('');
+  const [location, setLocation] = useState('');
 
+  const [price, setPrice] = useState('');
+
+  // Gán dữ liệu từ `dataUpdate` khi modal mở
   useEffect(() => {
     if (!_.isEmpty(dataUpdate)) {
-      setEmail(dataUpdate.email);
-      setUsername(dataUpdate.username);
-      setRole(dataUpdate.role);
+      setName(dataUpdate.motorbikeName || ''); // Lấy tên xe
+      setLocation(dataUpdate.locationName || 'HN-01'); // Địa điểm
+
+      setPrice(dataUpdate.rentalPrice || ''); // Giá thuê
     }
   }, [dataUpdate]);
 
-  const handleSubmitCreateUser = async () => {
-    let res = await postUpdateUser(dataUpdate.id, username, role);
+  const handleSubmitUpdateBike = async () => {
+    console.log(
+      'check data:',
+      dataUpdate.motorbikeId,
+
+      name,
+      location,
+
+      price
+    );
+    const res = await postUpdateBike(
+      dataUpdate.motorbikeId,
+
+      name,
+      location,
+
+      price
+    );
     if (res && res.EC === 0) {
       toast.success(res.EM);
       handleClose();
-
-      await props.fetchListuserWithPaginate(1);
+      await props.fetchListBikesWithPaginate(1); // Làm mới danh sách xe
     } else if (res && res.EC !== 0) {
       toast.error(res.EM);
     }
@@ -47,52 +67,51 @@ function ModalUpdateBike(props) {
     <>
       <Modal backdrop="static" show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Update a user</Modal.Title>
+          <Modal.Title>Update a bike</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="g-3">
+            {/* Tên xe */}
             <div className="col-md-8">
-              <label className="form-label">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                autoComplete="email"
-                value={email}
-                disabled
-                onChange={(event) => setEmail(event.target.value)}
-              />
-            </div>
-            <div className="col-md-8">
-              <label className="form-label">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                autoComplete="password"
-                disabled
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
-            <div className="col-6">
-              <label className="form-label">Username</label>
+              <label className="form-label">Tên xe</label>
               <input
                 type="text"
                 className="form-control"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
               />
             </div>
 
-            <div className="col-md-4">
-              <label className="form-label">Role</label>
+            {/* Địa điểm */}
+            <div className="col-md-8">
+              <label className="form-label">Địa điểm</label>
               <select
                 className="form-select"
-                value={role}
-                onChange={(event) => setRole(event.target.value)}
+                value={location}
+                onChange={(event) => setLocation(event.target.value)}
               >
-                <option value="USER">USER</option>
-                <option value="ADMIN">ADMIN</option>
+                <option value="HN-01">Hồ Hoàn Kiếm</option>
+                <option value="HN-02">Ngã Tư Sở</option>
+                <option value="HN-03">Tam Trinh</option>
+                <option value="HN-04">Bách Khoa</option>
+                <option value="HN-05">Cầu Giấy</option>
+                <option value="HN-06">Xa La</option>
+                <option value="HN-07">Thanh Xuân</option>
+                <option value="HN-08">Nhổn</option>
+                <option value="HN-09">Sơn Tây</option>
+                <option value="HN-10">Mai Động</option>
               </select>
+            </div>
+
+            {/* Giá thuê */}
+            <div className="col-md-8">
+              <label className="form-label">Giá thuê</label>
+              <input
+                type="number"
+                className="form-control"
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}
+              />
             </div>
           </form>
         </Modal.Body>
@@ -100,7 +119,7 @@ function ModalUpdateBike(props) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmitCreateUser}>
+          <Button variant="primary" onClick={handleSubmitUpdateBike}>
             Save
           </Button>
         </Modal.Footer>

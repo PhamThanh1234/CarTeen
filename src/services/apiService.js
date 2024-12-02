@@ -65,8 +65,39 @@ const getInvoice = (id) => {
   const token = localStorage.getItem('token');
   return axios.get(`invoice/${id}`, token);
 };
+const getInvoiceDetail = (id) => {
+  const token = localStorage.getItem('token');
+  return axios.get(`invoiceDetail/${id}`, token);
+};
+const postUpdateBike = (id, type, name, location, licensePlate, price) => {
+  const token = localStorage.getItem('token');
+  return axios.put(`motorbikes/updateMotorbike/${id}`, token);
+};
+
+const deleteBike = (id) => {
+  const token = localStorage.getItem('token');
+  return axios.delete(`motorbikes/deleteMotorbike/${id}`, token);
+};
+const postCreateNewBike = (motobikeID, type, name, location, licensePlate, price, previewImage) => {
+  const motorbikeData = {
+    motorbikeId: motobikeID,
+    typeId: type,
+    locationId: location,
+    licensePlate: licensePlate,
+    motorbikeName: name,
+    rentalPrice: price,
+  };
+  const token = localStorage.getItem('token');
+  const Form = new FormData();
+  Form.append('motorbikeData', motorbikeData);
+  Form.append('imageFile', previewImage);
+
+  return axios.post(`motorbikes/addMotorbike`, Form, token); // sửa lại link giống trên posman để chạyk
+};
 export {
   createInvoice,
+  postCreateNewBike,
+  deleteBike,
   postCreateNewUser,
   getAllUser,
   postUpdateUser,
@@ -82,4 +113,6 @@ export {
   getMyinfo,
   updateMe,
   getInvoice,
+  getInvoiceDetail,
+  postUpdateBike,
 };

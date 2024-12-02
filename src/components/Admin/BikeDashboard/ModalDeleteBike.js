@@ -1,37 +1,26 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { deleteUser } from '../../../services/apiService';
-import { toast } from 'react-toastify';
+import { deleteBike } from '../../../services/apiService';
+
 import 'react-toastify/dist/ReactToastify.css';
 function ModalDeleteBike(props) {
   const { show, setShow, dataDelete } = props;
-
+  console.log(dataDelete);
   const handleClose = () => setShow(false);
   const handleSubmitDelete = async () => {
-    // Call API to create user
-
-    let res = await deleteUser(dataDelete.id);
-    if (res.data && res.data.EC === 0) {
-      toast.success(res.data.EM);
+    let res = await deleteBike(dataDelete.motorbikeId);
+    if (res) {
       handleClose();
-      // await props.fetchListUser();
-      props.setcurrentPage(1);
-      await props.fetchListuserWithPaginate(1);
+      await props.fetchListBike();
     }
-    if (res.data && res.data.EC !== 0) {
-      toast.error(res.data.EM);
-    }
-    console.log(res.data);
   };
   return (
     <>
       <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete the User ?</Modal.Title>
+          <Modal.Title>Confirm Delete the Bike ?</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure to delete use. email=<b>{dataDelete.email}</b>
-        </Modal.Body>
+        <Modal.Body>Are you sure to delete bike</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cancel

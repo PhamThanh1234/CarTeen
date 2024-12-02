@@ -4,7 +4,7 @@ import { useState, useEffect  } from 'react';
 import './ManageUser.css';
 import { getAllUser, getUserWithPaginate } from '../../../services/apiService';
 import ModalDeleteUser from './ModalDeleteUser';
-import TableUserPaginate from './TableUserPaginate';
+
 import { Spin } from 'antd';
 import TableUser from './TableUser';
 
@@ -15,14 +15,12 @@ const ManageUser = () => {
   const [dataUpdate, setdataUpdate] = useState('');
   const [dataDelete, setdataDelete] = useState('');
   const LIMIT_USER = 6;
-  const [currentPage, setcurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState(0);
   const token = localStorage.getItem('token');
   const [appLoading, setAppLoading ] = useState(false);
   const [listUser, setListUser] = useState([]);
   useEffect(() => {
     fetchListuser();
-    // fetchListuserWithPaginate(1);
+    
   }, []);
   const fetchListuser = async () => {
     setAppLoading(true)
@@ -37,7 +35,7 @@ const ManageUser = () => {
     const res = await getUserWithPaginate(page, LIMIT_USER);
     if (res) {
       setListUser(res);
-      setPageCount(res);
+   
     }
   };
   const handleClickBtnUpdate = (user) => {

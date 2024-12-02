@@ -1,13 +1,11 @@
 import './Profile.css';
 import { getMyinfo, updateMe, getInvoice } from '../../services/apiService';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Bill from './Bill';
 import Profile from './Profile';
-import { AuthContext } from '../Context/authcontext';
 
 const EditProfile = () => {
-  const { auth, setAuth } = useContext(AuthContext);
   const initialProfile = {
     id: '',
     fullName: '',
@@ -77,7 +75,7 @@ const EditProfile = () => {
         </div>
         <ul>
           <li className="mb-2">
-            <a href="#pro" className="flex items-center text-blue-600">
+            <a href="#pro" className="flex items-center no-underline">
               <i className="fas fa-user mr-2" />
               <div>
                 <p className="font-bold mt-3">Thông tin tài khoản</p>
@@ -85,7 +83,7 @@ const EditProfile = () => {
             </a>
           </li>
           <li className="mb-2">
-            <a href="#pro" className="flex items-center text-blue-600">
+            <a href="#pro" className="flex items-center  no-underline ">
               <i className="fas fa-history mr-2" />
               <div>
                 <p className="font-bold mt-3">Hóa đơn</p>
@@ -94,7 +92,7 @@ const EditProfile = () => {
           </li>
 
           <li className="mb-2">
-            <a href="/" className="flex items-center text-blue-600">
+            <a href="/" className="flex items-center no-underline">
               <i className="fas fa-sign-out-alt mr-2"></i>
               <div>
                 <p className="font-bold mt-3">Về trang chủ</p>

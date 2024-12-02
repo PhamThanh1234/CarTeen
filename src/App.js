@@ -10,30 +10,29 @@ import { Spin } from 'antd';
 const App = () => {
   const { auth, setAuth, appLoading, setAppLoading } = useContext(AuthContext);
   const token = localStorage.getItem('token');
-  console.log(token);
+
   useEffect(() => {
     if (token) {
       const fetchAccount = async () => {
         setAppLoading(true);
         const data = await reloadUser(token);
-        console.log('Data:', data);
+
         if (data) {
           setAuth({
             isAuthenticated: true,
             user: {
               role: data?.role ?? '',
-              name: data?.username ?? '',
+              name: data?.username ?? 'null',
               id: data?.id ?? '',
               fullName: data?.fullName ?? '',
             },
           });
-          console.log(auth);
         } else {
           setAuth({
             isAuthenticated: false,
             user: {
               role: data?.role ?? '',
-              name: data?.username ?? '',
+              name: data?.username ?? 'null',
               id: data?.id ?? '',
               fullName: data?.fullName ?? '',
             },

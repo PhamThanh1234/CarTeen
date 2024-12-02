@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Bill.css';
+import ModalInvoiceDetail from './ModalInvoiceDetail';
 
 const Bill = ({ orders = [] }) => {
+  const [Idinvoice, setIdinvoice] = useState();
+  const [showModalInvoiceDetail, setshowModalInvoiceDetail] = useState(false);
+  const handleViewInvoiceDetail = () => {
+    setshowModalInvoiceDetail(true);
+  };
   return (
     <div id="invoice" className="order-table-container">
       <table className="order-table">
         <thead>
           <tr>
-            <th>
-              <input type="checkbox" />
-            </th>
             <th>Mã đơn hàng</th>
             <th>Ngày tạo đơn</th>
             <th>Số xe máy</th>
             <th>Trạng thái đơn hàng</th>
             <th>Số lượng</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -22,10 +26,7 @@ const Bill = ({ orders = [] }) => {
             orders.map((order, index) => (
               <tr key={index}>
                 <td>
-                  <input type="checkbox" />
-                </td>
-                <td>
-                  <a href="#">{order.invoiceId}</a>
+                  <p>{order.invoiceId}</p>
                 </td>
                 <td>{new Date(order.createDate).toLocaleString()}</td>
                 <td>{order.motorbikeIds}</td>
@@ -43,11 +44,27 @@ const Bill = ({ orders = [] }) => {
                   </span>
                 </td>
                 <td>{order.count}</td>
+                <td>
+                  <button
+                    className="btn-view-details"
+                    onClick={() => {
+                      handleViewInvoiceDetail();
+                      setIdinvoice(order.invoiceId);
+                    }}
+                  >
+                    Xem chi tiết
+                  </button>
+                  <ModalInvoiceDetail
+                    show={showModalInvoiceDetail}
+                    setShow={setshowModalInvoiceDetail}
+                    Idinvoice={Idinvoice}
+                  />
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="text-center">
+              <td colSpan="7" className="text-center">
                 Không có đơn hàng nào
               </td>
             </tr>

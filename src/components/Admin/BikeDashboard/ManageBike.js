@@ -1,27 +1,27 @@
 import ModalCreatBike from './ModalCreatBike';
 import ModalUpdateBike from './ModalUpdateBike';
 import { useState, useEffect } from 'react';
-
-import { getAllBikes, getUserWithPaginate } from '../../../services/apiService';
+import './ManageBike.css';
+import { getAllBikes } from '../../../services/apiService';
 import ModalDeleteBike from './ModalDeleteBike';
 import TableBike from './TableBike';
 import { Spin } from 'antd';
+
 const ManageBike = () => {
   const [showModalCreateUser, setshowModalCreateUser] = useState(false);
   const [showModalUpdateUser, setshowModalUpdateUser] = useState(false);
   const [showModalDeleteUser, setshowModalDeleteUser] = useState(false);
   const [dataUpdate, setdataUpdate] = useState('');
   const [dataDelete, setdataDelete] = useState('');
-  const LIMIT_USER = 6;
+
   const [appLoading, setAppLoading] = useState(false);
   const [currentPage, setcurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState(0);
+
   const [listBike, setListBike] = useState([]);
   useEffect(() => {
-    fetchListuser();
-    // fetchListuserWithPaginate(1);
+    fetchListBike();
   }, []);
-  const fetchListuser = async () => {
+  const fetchListBike = async () => {
     setAppLoading(true);
     const res = await getAllBikes();
     if (res) {
@@ -29,13 +29,7 @@ const ManageBike = () => {
     }
     setAppLoading(false);
   };
-  const fetchListuserWithPaginate = async (page) => {
-    const res = await getUserWithPaginate(page, LIMIT_USER);
-    if (res) {
-      setListBike(res);
-      setPageCount(res);
-    }
-  };
+
   const handleClickBtnUpdate = (user) => {
     setdataUpdate(user);
     setshowModalUpdateUser(true);
@@ -57,7 +51,7 @@ const ManageBike = () => {
       <div className="user-content">
         <div className="btn-addnew">
           <button className="btn btn-primary" onClick={() => setshowModalCreateUser(true)}>
-            Add new user
+            Add new Bike
           </button>
         </div>
 
@@ -86,27 +80,22 @@ const ManageBike = () => {
         <ModalCreatBike
           show={showModalCreateUser}
           setShow={setshowModalCreateUser}
-          fetchListuserWithPaginate={fetchListuserWithPaginate}
           currentPage={currentPage}
-          fetchListuser={fetchListuser}
+          fetchListBike={fetchListBike}
           setcurrentPage={setcurrentPage}
         />
         <ModalUpdateBike
           show={showModalUpdateUser}
           setShow={setshowModalUpdateUser}
           dataUpdate={dataUpdate}
-          fetchListuserWithPaginate={fetchListuserWithPaginate}
           resetUpdateData={resetUpdateData}
-          currentPage={currentPage}
-          fetchListuser={fetchListuser}
-          setcurrentPage={setcurrentPage}
+          fetchListBike={fetchListBike}
         />
         <ModalDeleteBike
           show={showModalDeleteUser}
           setShow={setshowModalDeleteUser}
           dataDelete={dataDelete}
-          fetchListuser={fetchListuser}
-          fetchListuserWithPaginate={fetchListuserWithPaginate}
+          fetchListBike={fetchListBike}
           currentPage={currentPage}
           setcurrentPage={setcurrentPage}
         />

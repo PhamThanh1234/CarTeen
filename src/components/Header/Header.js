@@ -43,14 +43,11 @@ const Header = (props) => {
             <NavLink className="nav-link" to="/listbike">
               Xe
             </NavLink>
-            {/* {auth?.user?.role === 'Admin' ? (
+            {auth?.user?.role === 'ADMIN' ? (
               <NavLink to="/admin" className="nav-link">
                 Admin
               </NavLink>
-            ) : null} */}
-            <NavLink to="/admin" className="nav-link">
-              Admin
-            </NavLink>
+            ) : null}
             <NavLink to="/introduce" className="nav-link">
               Giới thiệu
             </NavLink>
@@ -59,7 +56,7 @@ const Header = (props) => {
             </NavLink>
           </Nav>
           <Nav>
-            {auth.isAuthenticated === false && auth.user.name === '' ? (
+            {auth.isAuthenticated === false || auth.user.name === 'null' ? (
               <>
                 <button className="btn-login" onClick={() => handleLogin()}>
                   Đăng nhập
