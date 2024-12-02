@@ -2,25 +2,25 @@ import axios from '../utils/axiosCustomize';
 import axiosutral from '../utils/axiosInstance';
 const postCreateNewUser = (email, password, username, role) => {
   const data = { email, password, username, role };
-  return axios.post('/addUser', data); // sửa lại link giống trên posman để chạyk
+  return axios.post('/addUser', data);
 };
 const getAllBikes = () => {
-  return axios.get('/motorbikes'); // sửa lại link giống trên posman để chạy chức năng này
+  return axios.get('/motorbikes');
 };
 const getAllUser = (token) => {
-  return axios.get('/users', token); // sửa lại link giống trên posman để chạy chức năng này
+  return axios.get('/users', token);
 };
 const postUpdateUser = (username, role, id) => {
   const data = { id, username, role };
-  return axios.put(`/updateUser/${id}`, data); // sửa lại link giống trên posman để chạyk
+  return axios.put(`/updateUser/${id}`, data);
 };
 
 const deleteUser = (userID) => {
-  return axios.delete(`/delete/${userID}`, { data: { id: userID } }); // sửa lại link giống trên posman để chạy chức năng này xóa user dựa trên id
+  return axios.delete(`/delete/${userID}`, { data: { id: userID } });
 };
 
 const getUserWithPaginate = (page, limit) => {
-  return axios.get(`baseURL?page=${page}&limit=${limit}`); //phân trang chia theo limit và page
+  return axios.get(`baseURL?page=${page}&limit=${limit}`);
 };
 const postLogin = (email, password) => {
   const data = { email, password };
@@ -50,7 +50,7 @@ const countMotorbikeCanRent = (motorbikeName, locationName) => {
 };
 
 const getMyinfo = (token) => {
-  return axios.get('/myInfo', token); // sửa lại link giống trên posman để chạy chức năng này
+  return axios.get('/myInfo', token);
 };
 const updateMe = (id, fullName, username, name, phone, address, cccd, sex, token) => {
   const data = { id, fullName, username, name, phone, address, sex, cccd };
@@ -78,22 +78,27 @@ const deleteBike = (id) => {
   const token = localStorage.getItem('token');
   return axios.delete(`motorbikes/deleteMotorbike/${id}`, token);
 };
-const postCreateNewBike = (motobikeID, type, name, location, licensePlate, price, previewImage) => {
-  const motorbikeData = {
-    motorbikeId: motobikeID,
-    typeId: type,
-    locationId: location,
-    licensePlate: licensePlate,
-    motorbikeName: name,
-    rentalPrice: price,
-  };
+const postCreateNewBike = (motobikeID, type, name, location, licensePlate, price, image) => {
   const token = localStorage.getItem('token');
   const Form = new FormData();
-  Form.append('motorbikeData', motorbikeData);
-  Form.append('imageFile', previewImage);
 
-  return axios.post(`motorbikes/addMotorbike`, Form, token); // sửa lại link giống trên posman để chạyk
+  Form.append(
+    'motorbikeData',
+    JSON.stringify({
+      motorbikeId: motobikeID,
+      typeId: type,
+      locationName: location,
+      licensePlate: licensePlate,
+      motorbikeName: name,
+      rentalPrice: price,
+    })
+  );
+
+  Form.append('imageFile', image);
+
+  return axios.post('/motorbikes/addMotorbike', Form, token);
 };
+
 export {
   createInvoice,
   postCreateNewBike,
